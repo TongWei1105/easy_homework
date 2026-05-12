@@ -1,0 +1,13 @@
+{
+  "name": "wrongbook",
+  "version": "0.1.0",
+  "description": "整理试卷错题、生成纯练习版 PDF 的 Claude Code 技能。识别老师红笔批改的错题，提取结构化数据，按学科分章节生成可直接给学生重做的 PDF；累积本地错题库，支持按学科/时间区间出复习练习。",
+  "author": {
+    "name": "TongWei1105",
+    "email": "vvtwow@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/TongWei1105/easy_homework",
+  "repository": "https://github.com/TongWei1105/easy_homework",
+  "keywords": ["education", "homework", "ocr", "pdf", "chinese", "mistakes", "wrongbook"]
+}

@@ -1,0 +1,34 @@
+{
+  "title": "数学错题练习 · 2026-05-11",
+  "student": "示例学生",
+  "questions": [
+    {
+      "id": 1,
+      "subject": "数学",
+      "type": "计算题",
+      "content": "计算：3/4 + 5/6 = ?",
+      "answer_lines": 3
+    },
+    {
+      "id": 2,
+      "subject": "数学",
+      "type": "应用题",
+      "content": "小明有 24 颗糖，分给 4 个小朋友，每人分得几颗？如果再来 2 个小朋友一起平分，每人分得几颗？",
+      "answer_lines": 5
+    },
+    {
+      "id": 3,
+      "subject": "语文",
+      "type": "默写",
+      "content": "默写《静夜思》全诗，并写出作者朝代。",
+      "answer_lines": 6
+    },
+    {
+      "id": 4,
+      "subject": "英语",
+      "type": "翻译",
+      "content": "Translate to English: 我每天早上七点起床。",
+      "answer_lines": 2
+    }
+  ]
+}
