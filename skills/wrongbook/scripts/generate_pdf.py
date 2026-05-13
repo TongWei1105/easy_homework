@@ -32,6 +32,7 @@ try:
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.platypus import (
         SimpleDocTemplate, Paragraph, Spacer, Flowable, KeepTogether,
+        Image as RLImage,
     )
 except ImportError as e:
     print(f"[wrongbook] Missing dependency: {e.name}", file=sys.stderr)
@@ -133,6 +134,24 @@ def _styles():
     }
 
 
+def _scaled_image(path: str, max_width: float, max_height: float) -> RLImage | None:
+    """Load `path` as a reportlab Image, scaled to fit within max_width × max_height
+    while preserving aspect ratio. Returns None if the file is missing or unreadable."""
+    p = Path(path)
+    if not p.exists():
+        print(f"[wrongbook] Warning: image_path not found: {path}", file=sys.stderr)
+        return None
+    try:
+        from PIL import Image as PILImage
+        with PILImage.open(p) as im:
+            iw, ih = im.size
+    except Exception as e:
+        print(f"[wrongbook] Warning: cannot read image {path}: {e}", file=sys.stderr)
+        return None
+    scale = min(max_width / iw, max_height / ih, 1.0)
+    return RLImage(str(p), width=iw * scale, height=ih * scale)
+
+
 def _question_block(q: dict, idx_fallback: int, styles: dict, content_width: float,
                     show_subject_in_head: bool = True):
     qid = q.get("id", idx_fallback)
@@ -140,6 +159,7 @@ def _question_block(q: dict, idx_fallback: int, styles: dict, content_width: flo
     subject = q.get("subject") or ""
     content = (q.get("content") or "").replace("\n", "<br/>")
     answer_lines = int(q.get("answer_lines", 3))
+    image_path = q.get("image_path")
 
     head_bits = []
     if show_subject_in_head and subject:
@@ -152,6 +172,12 @@ def _question_block(q: dict, idx_fallback: int, styles: dict, content_width: flo
     if head_text:
         flowables.append(Paragraph(f"【{head_text}】", styles["qhead"]))
     flowables.append(Paragraph(f"<b>{qid}.</b> {content}", styles["qbody"]))
+    if image_path:
+        img = _scaled_image(image_path, max_width=content_width, max_height=80 * mm)
+        if img is not None:
+            flowables.append(Spacer(1, 2 * mm))
+            flowables.append(img)
+            flowables.append(Spacer(1, 2 * mm))
     flowables.append(AnswerLines(answer_lines, content_width))
     flowables.append(Spacer(1, 6 * mm))
     return KeepTogether(flowables)
