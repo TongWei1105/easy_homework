@@ -12,6 +12,10 @@
 |:--:|:--:|
 | ![输入](assets/demo_input.png) | ![输出](assets/demo_output.png) |
 
+看图题、连线题等纯文本无法表达的题，会自动从原图里裁出小图嵌进 PDF：
+
+![看图题示例](assets/demo_visual.png)
+
 ---
 
 ## 功能
@@ -112,11 +116,13 @@ python3 ~/.claude/plugins/wrongbook/skills/wrongbook/scripts/store.py list-sessi
 | 语文 | 默写、阅读、作文 | ✅ |
 | 英语 | 选择、翻译、阅读 | ✅ |
 | 理化生 | 大部分文字题 | ✅（含图表的题暂用文字描述） |
+| 看图题 / 连线 / 字母圈选 / 几何图 | 自动裁原图嵌入 PDF | ✅ |
 
 ## 已知限制（待版本）
 
 - 数学公式只支持纯文本（`3/4 + 5/6`），未来会加 LaTeX → 图片
-- 几何图、化学结构图等无法自动嵌入 PDF（题干中文字描述代替）
+- 嵌入的图保留了学生原作答（圈/划），下个版本考虑"擦答案"
+- 听力题的音频文件暂不支持挂载
 - 暂未追踪"哪些错题已被重做过"
 
 ## 项目结构
@@ -127,7 +133,8 @@ python3 ~/.claude/plugins/wrongbook/skills/wrongbook/scripts/store.py list-sessi
 ├── skills/wrongbook/
 │   ├── SKILL.md                 # 触发说明 + 工作流指令
 │   ├── scripts/
-│   │   ├── generate_pdf.py      # JSON → PDF
+│   │   ├── generate_pdf.py      # JSON → PDF（含图片嵌入）
+│   │   ├── crop.py              # 从原图裁出题目区域
 │   │   └── store.py             # 文件版错题库
 │   └── examples/                # 抽取指南、样例输入、模拟试卷
 ├── README.md                    # 你正在看的这个
